@@ -1,0 +1,25 @@
+dl,dd,dt{
+    margin: 0;
+    padding: 0;
+}
+
+.rank-row{
+    width: 100%;
+    display: flex;
+}
+.rank-row span:first-of-type{
+    width: 3em;
+    flex-shrink: 0;
+}
+.rank-row span:nth-of-type(2){
+    width: 6em;
+}
+.rank-row span:nth-of-type(3){
+    width: 12em;
+}
+.rank-row span:nth-of-type(4){
+    width: 10em;
+}
+.rank-row span:nth-of-type(5){
+    width: 18em;
+}
