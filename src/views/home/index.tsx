@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import fetchApi from '../../base/fetchData';
 //接口是文件，所以会缓存
 import getAllData from '../../base/searchData';
@@ -14,13 +14,13 @@ interface GlobalProps {
 
 
 function App() {
-  const [page, setPage] = useState(1)
-  const [fetchData, setFetchData] = useState([])
+  let [fetchData, setFetchData] = useState([])
 
   useEffect(() => {
-    const { fetchHandle } = fetchApi(1, "global")
-    fetchHandle.then(({ rows = [] }) => {
-      setFetchData(rows)
+    getAllData().then(data => {
+      setFetchData(data.map((item: any) => item.rows).reduce((a: string | any[], b: any) => {
+        return a.concat(b)
+      }, []))
     })
   }, []);
 
@@ -30,53 +30,29 @@ function App() {
     if (customValue) {
       const { inputEl, inputE2 } = customValue.searchValue;
       getAllData().then(data => {
-
+        let filterData = [];
         switch (customValue.searchType) {
           case "age": {
-            data.map((item: any) => {
-              return filterRows(item, {
+            filterData = data.map((item: any) => {
+              return filterRows(item.rows, {
                 leftVal: parseInt(inputEl),
                 rightVal: parseInt(inputE2),
-                arg: ["hs_Character", 'hs_Character_Age']
+                arg: ["hs_Character", 0, "hs_Character_Age"] as any
               })
-            })
+            }).reduce((a: any[], b: any[]) => { return a.concat(b) }, [])
 
             break;
           }
         }
+        setFetchData(filterData)
       })
-      switch (customValue.searchType) {
-        case "age": {
-          const { inputEl, inputE2 } = customValue.searchValue;
-
-          // let filterData: React.SetStateAction<never[]> = fetchData;
-          if (inputEl) {
-            const numEl = parseInt(inputEl);
-            // filterData = filterData.filter((item: any) => {
-            //   const [charaItem] = item.hs_Character;
-            //   if (charaItem.hs_Character_Age == '未知') return false;
-            //   return charaItem.hs_Character_Age >= numEl;
-            // })
-
-          }
-          if (inputE2) {
-            // filterData = filterData.filter((item: any) => {
-            //   const numE2 = parseInt(inputE2);
-            //   const [charaItem] = item.hs_Character;
-            //   if (charaItem.hs_Character_Age == '未知') return false;
-            //   return charaItem.hs_Character_Age <= numE2;
-            // })
-          }
-          setFetchData(filterData)
-          break;
-        }
-      }
     }
   }
 
-  const rows = fetchData.map((item: GlobalProps) => {
-    return <RankRow item={item} key={item.hs_Rank_Global_ID} />
+  const rows = fetchData.map((item: GlobalProps, index) => {
+    return <RankRow item={item} key={index} />
   })
+
   return (
     <dl onClick={wrapClick}>
       <RankHead />

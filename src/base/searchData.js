@@ -13,7 +13,7 @@ const cacheData = {}
     let promiseArr = []
     const pageCount = dataTarget[target]
     for(let i=1; i<= pageCount; i++){
-        const { fetchHandle } = fetchData(1, "global")
+        const { fetchHandle } = fetchData(i, "global")
         promiseArr.push(fetchHandle)
     }
     return Promise.all(promiseArr).then((data)=>{

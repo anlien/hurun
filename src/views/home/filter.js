@@ -5,7 +5,7 @@ export function filterRows(data=[], condition={ leftVal: 0, rightVal: 0, arg: []
     //区间--右边值
     const rightVal = condition.rightVal;
     //过滤数组
-    return data.filter(item => {
+    const arr = data.filter(item => {
         const val = condition.arg.reduce((a,b) => a[b], item)
         let filVal = true;
         if(leftVal){
@@ -16,4 +16,5 @@ export function filterRows(data=[], condition={ leftVal: 0, rightVal: 0, arg: []
         }
         return filVal;
     })
+    return arr;
 }
