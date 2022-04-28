@@ -7,8 +7,8 @@ const Search = (props: any) => {
 
   const onSearchClickFn = (e: any) => {
     e.customValue = {
-      action: "search", 
-      searchType: props.searchType, 
+      action: "search",
+      searchType: props.searchType,
       searchValue: {
         inputEl: inputEl.current.value,
         inputE2: inputE2.current.value
@@ -29,6 +29,25 @@ const Search = (props: any) => {
   </div>
 }
 
+const SearchText = (props: any) => {
+  const inputEl: any = useRef(null);
+
+  const onSearchClickFn = (e: any) => {
+    e.customValue = {
+      action: "search",
+      searchType: props.searchType,
+      parameter: props.parameter,
+      searchValue: {
+        inputEl: inputEl.current.value,
+      }
+    }
+  };
+  return <div className='search-text-wrap'>
+    <input type="text" className="input-txt" autoComplete="off" ref={inputEl} />
+    <label className='search-btn ant-btn-lg search-btn-confirm' onClick={onSearchClickFn}>搜索</label>
+  </div>
+}
+
 const SearchIcon = () => {
   return <svg viewBox="64 64 896 896" focusable="false" data-icon="search" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0011.6 0l43.6-43.5a8.2 8.2 0 000-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z"></path></svg>
 }
@@ -39,7 +58,7 @@ const CloseIcon = () => {
 
 const AgeItem = () => {
   const [ageSearch, setSearch] = useState(false)
-  return <div><span style={{ position: 'relative' }}
+  return <div className='rank-td'><span style={{ position: 'relative' }}
     onClick={() => { setSearch(!ageSearch) }}>
     年龄 {ageSearch ? <CloseIcon /> : <SearchIcon />}</span>
     <br />{
@@ -47,13 +66,23 @@ const AgeItem = () => {
     }</div>
 }
 
+const IndustryItem = (props: any) => {
+  const [status, setSearch] = useState(false)
+  return <div className='rank-td'><span style={{ position: 'relative' }}
+    onClick={() => { setSearch(!status) }}>
+    {props.text} {status ? <CloseIcon /> : <SearchIcon />}</span>
+    <br />{
+      status ? <SearchText searchType='searchWord' parameter={props.parameter} /> : null
+    }</div>
+}
+
 const RankHead = () => {
   return <dt className='rank-row rank-title'>
-    <span>排名</span>
-    <span>市值</span>
-    <span>公司名</span>
-    <span>行业</span>
-    <span>董事</span>
+    <span className='rank-td'>排名</span>
+    <span className='rank-td'>市值</span>
+    <IndustryItem text={"公司名"} parameter={['hs_Rank_Rich_ComName_Cn', 'hs_Rank_Global_ComName_Cn']} />
+    <IndustryItem text={"行业"} parameter={['hs_Rank_Rich_Industry_Cn', 'hs_Rank_Global_Industry_Cn']} />
+    <span className='rank-td'>董事</span>
     <AgeItem />
   </dt>
 };

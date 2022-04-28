@@ -43,6 +43,19 @@ function App() {
 
             break;
           }
+          case "searchWord": {
+            const parameter = customValue.parameter;
+
+            filterData = data.map((item: any) => {
+              return item.rows.filter((item: any) => {
+                return parameter.filter((par:any) => {
+                  const pro = item[par] || ""
+                  return pro.indexOf(inputEl) !== -1
+                }).length > 0
+              })
+            }).reduce((a: any[], b: any[]) => { return a.concat(b) }, [])
+            break;
+          }
         }
         setFetchData(filterData)
       })
@@ -50,7 +63,7 @@ function App() {
   }
 
   const rows = fetchData.map((item: GlobalProps, index) => {
-    return <RankRow item={item} key={index} rank={index}/>
+    return <RankRow item={item} key={index} rank={index} />
   })
 
   return (

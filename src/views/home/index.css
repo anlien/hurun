@@ -7,20 +7,21 @@ dl,dd,dt{
     width: 100%;
     display: flex;
 }
-.rank-row span:first-of-type{
+
+.rank-row .rank-td:nth-child(1){
     width: 3em;
     flex-shrink: 0;
 }
-.rank-row span:nth-of-type(2){
+.rank-row .rank-td:nth-child(2){
     width: 6em;
 }
-.rank-row span:nth-of-type(3){
+.rank-row .rank-td:nth-child(3){
     width: 12em;
 }
-.rank-row span:nth-of-type(4){
+.rank-row .rank-td:nth-child(4){
     width: 10em;
 }
-.rank-row span:nth-of-type(5){
+.rank-row .rank-td:nth-child(5){
     width: 18em;
 }
 .rank-title{
