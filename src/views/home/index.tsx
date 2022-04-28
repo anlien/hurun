@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import fetchApi from '../../base/fetchData';
 //接口是文件，所以会缓存
 import getAllData from '../../base/searchData';
 import './index.css';
@@ -29,6 +28,7 @@ function App() {
     const customValue = e.customValue;
     if (customValue) {
       const { inputEl, inputE2 } = customValue.searchValue;
+
       getAllData().then(data => {
         let filterData = [];
         switch (customValue.searchType) {
@@ -50,7 +50,7 @@ function App() {
   }
 
   const rows = fetchData.map((item: GlobalProps, index) => {
-    return <RankRow item={item} key={index} />
+    return <RankRow item={item} key={index} rank={index}/>
   })
 
   return (
